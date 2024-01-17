@@ -1,24 +1,32 @@
 <script>
-  (function($) {
-    var currentIndex = 0;
-    var texts = [
-      "Text 1",
-      "Text 2",
-      "Text 3",
-    ];
+ (function($) {
+   var currentIndex = 0;
+   var texts = [
+     "Text 1",
+     "Text 2",
+     "Text 3",
+   ];
 
-    function updateText() {
-      var textContainer = $("#text-display");
-      textContainer.fadeOut(500, function() {
-        textContainer.text(texts[currentIndex]).fadeIn(500);
-        currentIndex = (currentIndex + 1) % texts.length;
-      });
-    }
+   var animations = [
+     {hide: 'fadeOut', show: 'fadeIn'},
+     {hide: 'slideUp', show: 'slideDown'},
+     {hide: 'fadeOut', show: 'fadeIn'}
+   ];
 
-    updateText();
-    setInterval(updateText, 3000);
+   function updateText() {
+     var textContainer = $("#text-display");
+     var currentAnimation = animations[currentIndex];
 
-  })(jQuery);
+     textContainer[currentAnimation.hide](500, function() {
+       textContainer.text(texts[currentIndex])[currentAnimation.show](500);
+       currentIndex = (currentIndex + 1) % texts.length;
+     });
+   }
+
+   updateText();
+   setInterval(updateText, 3000);
+
+ })(jQuery);
 </script>
 
 
@@ -28,13 +36,6 @@
 </div>
 
 <style>
-  #custom-text-section {
-    text-align: center;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-  }
-
   #text-display {
     font-size: 18px;
     color: #333;
